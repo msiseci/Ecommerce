@@ -28,6 +28,7 @@ namespace Abc.MvcWebUI.Controllers
         
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             var orders = db.Orders.Where(i => i.Username == User.Identity.Name)
@@ -45,8 +46,40 @@ namespace Abc.MvcWebUI.Controllers
             return View(orders);
         }
 
+        [Authorize]
+        public ActionResult Details (int id)
+        {
+
+            var entity = db.Orders.Where(i => i.Id == id)
+                                    .Select(i => new OrderDetailsModel()
+                                    {
+                                        OrderId = i.Id,
+                                        OrderNumber = i.OrderNumber,
+                                        Total = i.Total,
+                                        OrderDate = i.OrderDate,
+                                        OrderState = i.OrderState,
+                                        AdresBasligi = i.AdresBasligi,
+                                        Adres = i.Adres,
+                                        Sehir = i.Sehir,
+                                        Semt = i.Semt,
+                                        Mahalle = i.Mahalle,
+                                        PostaKodu = i.PostaKodu,
+                                        Orderlines = i.Orderlines.Select(a => new OrderLineModel()
+                                        {
+                                            ProductId=a.ProductId,
+                                            ProductName=a.Product.Name,
+                                            Image=a.Product.Image,
+                                            Quantity=a.Quantity,
+                                            Price=a.Price
 
 
+
+                                        }).ToList()
+
+                                    }).FirstOrDefault();
+                                      return View(entity);
+
+        }
 
         // GET: Account
         public ActionResult Register()

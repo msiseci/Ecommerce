@@ -15,6 +15,7 @@
                     <th>Sipariş Tarihi</th>
                     <th>Toplam</th>
                     <th>Sipariş Durumu</th>
+                    <th></th>
                  
                 </tr>
 
@@ -26,8 +27,15 @@
                 <tr>
                     <td>@item.OrderNumber</td>
                     <td>@item.OrderDate.ToShortDateString()</td>
-                    <td>@item.Total</td>
+                    <td>
+                        <i class="fas fa-turkish-lira-sign fa-fw" style="color: var(--fa-navy);"></i>
+                         @item.Total
+                    </td>
                     <td>@item.OrderState</td>
+                    <td>
+                        @Html.ActionLink("Detaylar","Details", new {id=item.Id},new {@class= "btn btn-primary" })
+
+                    </td>
                 </tr>
 
                 }
